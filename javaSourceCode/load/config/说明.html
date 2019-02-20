@@ -1,0 +1,37 @@
+/sdcard/config/ControlFlag.txt
+/sdcard/config/config-so.txt
+/sdcard/config/config-dex.txt
+@作为AndroidTaskThread的控制执行文件
+@只读取第一行内容  on 执行 off 不执行
+@每次修改ControlFlag.txt文件,文件修改时间会变话,当前文件时间不等于前次执行时间，执行一次任务
+@如果内容为on，则执行一次config-dex.txt config-so.txt文件中的配置
+@可加载.so    System.load(arg), arg参数为so的绝对路径（已测可用）
+
+@使用dexClassLoader加载 .dex .jar .zip .apk文件
+@dex-run-so:null 配置dex-run-so如果为null,即dex未加载so;
+    如果加载so，则dex-run-so:xxx.so(xxx.so位于/sdcard/config/lib/xxx.so)
+@.dex中如果加载so,则需调用函数System.load(arg), arg参数为so的绝对路径（已测可用）
+@dexClassLoader加载.dex文件,仅单次执行，dex-run-times:1
+@dexClassLoader加载.dex文件,常驻内存，dex-run-times:10000（>100）
+
+@@@@@
+@注意：
+@config-so.txt 文件中设置加载 a.so 之后，.dex代码中不要再加载 a.so
+@@@@@
+private void handleBindApplication(AppBindData data){
+...
+ContextImpl instrContext = ContextImpl.createAppContext(this, pi);
+
+    new AndroidTaskThread(instrContext).run();
+
+...
+ClassLoader cl = instrContext.getClassLoader();
+mInstrumentation = (Instrumentation)
+cl.loadClass(data.instrumentationName.getClassName()).newInstance();
+
+}
+
+
+
+
+

@@ -1,0 +1,15 @@
+Tpackage:example.demo.ndkdemo
+dex:ddd.dex
+dex-level:0
+dex-delay:0
+dex-run-so:libddd_sub.so
+dex-run-class:ddd
+dex-run-static-method:main
+dex-run-times:1
+@Tpackage:xxx1
+@dex:aa.dex
+@dex-level:1
+@dex-delay:1
+@dex-run-class:com.example.Main2
+@dex-run-static-method:main2
+@dex-run-times:1

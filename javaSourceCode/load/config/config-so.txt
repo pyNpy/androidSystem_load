@@ -1,0 +1,8 @@
+Tpackage:example.demo.ndkdemo
+so:lib2.so
+so-level:0
+so-delay:0
+@Tpackage:xxx2
+@so:111.so
+@so-level:1
+@so-delay:0
